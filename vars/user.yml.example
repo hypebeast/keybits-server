@@ -1,0 +1,12 @@
+---
+###############################################################################
+# Rename file to user.yml set your variables here. For a complete reference
+# look at the `vars/defaults.yml.example` file.
+###############################################################################
+#
+#your domain name
+domain: TODO.com
+#
+# common
+main_user_name: TODO
+admin_email: TODO@TODO.com

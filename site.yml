@@ -1,0 +1,19 @@
+---
+# This is the top-level playbook that will set up your server with all currently available software.
+# See the Docs for information on how to run selected parts only.
+
+- hosts: all
+  user: root
+#  sudo: True
+  gather_facts: False
+  vars_files:
+    - vars/defaults.yml
+    - vars/user.yml
+
+  roles:
+    - common
+#    - ghost
+#    - wordpress
+#    - piwik
+#    - monitoring
+#    - backup

@@ -1,0 +1,13 @@
+---
+###############################################################################
+# DO NOT EDIT. Set your variables in `vars/user.yml` instead. This is a
+# reference of all the variables.
+###############################################################################
+
+# domain
+# domain: TODO.com
+
+# # common
+# main_user_name: TODO
+# admin_email: TODO@TODO.com
+# server_ip_address: TODO
