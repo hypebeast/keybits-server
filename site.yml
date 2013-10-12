@@ -12,6 +12,7 @@
 
   roles:
     - common
+    - analytics
 #    - ghost
 #    - wordpress
 #    - piwik
