@@ -1,0 +1,13 @@
+---
+# Install latest docker-py
+# TODO change to install from PyPI
+
+- name: Ensure docker-py directory
+  file: dest=/home/deploy/docker-py state=directory
+
+- name: Get docker-py repo from GitHub
+  git: repo=https://github.com/dotcloud/docker-py.git dest=/home/deploy/docker-py
+
+- name: Install docker-py
+  command: python setup.py install chdir=/home/deploy/docker-py
+
