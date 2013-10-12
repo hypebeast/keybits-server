@@ -4,9 +4,10 @@
 # look at the `vars/defaults.yml.example` file.
 ###############################################################################
 #
-#your domain name
-domain: TODO.com
+# your domain name (e.g: example.com) - don't enter www. or other subdomains.
+domain: EXAMPLE.COM
 #
 # common
-main_user_name: TODO
-admin_email: TODO@TODO.com
+main_user_name: YOUR_USER_NAME # username you'd like to log in with
+admin_email: YOU@EXAMPLE.COM # an email address to receive notifications
+server_ip_address: YOUR.IP.ADDRESS
