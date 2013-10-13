@@ -1,0 +1,24 @@
+---
+# Set up Ghost for a blog running via Docker
+
+- name: Ensure directory for Ghost database
+  file: dest=/mnt/ghost state=directory
+
+- name: Get docker-ghost repo from GitHub
+  git: repo=https://github.com/Keybits/docker-ghost.git dest=/home/deploy/docker-ghost/
+
+- name: Copy customised config.js to server
+  template: src=ghost_config.js dest=/home/deploy/docker-ghost/conf/config.js
+
+- name: Build docker-ghost
+  command: docker build -t keybits/ghost . chdir=/home/deploy/docker-ghost/
+
+- name: Run docker-ghost
+  docker: image=keybits/ghost command=/start ports=2368:2368 volumes=/mnt/ghost:/srv/ghost/content/data
+
+- name: Create nginx virtual host
+  template: src=nginx_blog.conf dest=/etc/nginx/sites-available/blog.conf
+
+- name: enable the ghost site
+  file: src=/etc/nginx/sites-available/blog.conf dest=/etc/nginx/sites-enabled/blog.conf state=link
+  notify: restart nginx
