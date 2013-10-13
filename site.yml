@@ -5,7 +5,7 @@
 - hosts: all
   user: root
 #  sudo: True
-  gather_facts: False
+#  gather_facts: False
   vars_files:
     - vars/defaults.yml
     - vars/user.yml

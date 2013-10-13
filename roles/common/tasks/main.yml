@@ -69,3 +69,4 @@
 - include: users.yml tags=users
 - include: nginx-default.yml tags=nginx-default
 - include: docker-py.yml tags=docker-py
+- include: swap-fix.yml tags=swap-fix
