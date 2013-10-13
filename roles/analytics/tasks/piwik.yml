@@ -9,7 +9,6 @@
 
 - name: Build docker-piwik
   command: docker build -t keybits/piwik . chdir=/home/deploy/docker-piwik/
-  when: result
 
 - name: Run docker-piwik
   docker: image=keybits/piwik command=/start ports=10000:80 volumes=/mnt/piwik:/data

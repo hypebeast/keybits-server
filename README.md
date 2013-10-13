@@ -11,6 +11,20 @@ Requirements:
 - Git
 - A server with Docker installed (more info coming soon)
 
+### Install docker-ansible module:
+
+    curl https://raw.github.com/cove/docker-ansible/master/docker-ansible.py > docker
+
+On Ubuntu / Debian:
+
+    sudo mv docker /usr/share/ansible
+
+On a Mac:
+
+    sudo mv docker /usr/local/share/ansible
+
+### Prepare to deploy
+
 To install, clone this repo:
 
     git clone https://github.com/Keybits/keybits-server.git
@@ -21,6 +35,8 @@ Now edit these files:
 rename `hosts.example` to `hosts` - enter your ip address here
 
 rename `vars/user.yml.example` to `vars/user.yml.` and edit the contents.
+
+### Deploy!
 
 Now run:
 
