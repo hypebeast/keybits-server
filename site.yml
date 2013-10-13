@@ -13,8 +13,6 @@
   roles:
     - common
     - analytics
-#    - ghost
-#    - wordpress
-#    - piwik
+    - blog
 #    - monitoring
 #    - backup
