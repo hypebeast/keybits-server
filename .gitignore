@@ -1,3 +1,5 @@
 vars/user.yml
 vars/default.yml
 hosts
+docs/_build
+docs/_static
