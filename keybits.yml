@@ -3,9 +3,8 @@
 # See the Docs for information on how to run selected parts only.
 
 - hosts: all
-  user: root
-#  sudo: True
-#  gather_facts: False
+  user: deploy
+  sudo: True
   vars_files:
     - vars/defaults.yml
     - vars/user.yml

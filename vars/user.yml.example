@@ -9,5 +9,9 @@ domain: EXAMPLE.COM
 #
 # common
 main_user_name: YOUR_USER_NAME # username you'd like to log in with
+# Create a password for your user to enable you to sudo.
+# Generate a password for your user with:
+# python -c 'import crypt; print crypt.crypt("YOUR_PASSWORD", "$1$SOME_RANDOM_SALT_HERE$")'
+main_user_password: YOUR_CRYPTED_PASSWORD
 admin_email: YOU@EXAMPLE.COM # an email address to receive notifications
-server_ip_address: YOUR.IP.ADDRESS
+server_ip_address: YOUR.SERVER.IP.ADDRESS

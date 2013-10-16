@@ -1,0 +1,38 @@
+---
+# Creates a deploy user and your main user.
+# Enables key based login, passwordless sudo for deploy and sets a password for your user.
+
+- name: Create user deploy
+  user: name=deploy comment="Ansible deployment user" home=/home/deploy shell=/bin/bash group=deploy
+
+- name: Enable passwordless sudo
+  copy: src=sudoers dest=/etc/sudoers validate='visudo -cf %s'
+
+- name: Ensure .ssh directory
+  file: dest=/home/deploy/.ssh state=directory
+
+- name: Copy authorized keys to deploy user
+  command: cp /root/.ssh/authorized_keys /home/deploy/.ssh/
+
+- name: Set permissions on authorized_keys
+  file: path=/home/deploy/.ssh/authorized_keys owner=deploy group=deploy mode=400
+  notify: restart ssh
+
+- name: Set permissions on deploy home directory
+  file: dest=/home/deploy owner=deploy group=deploy recurse=yes state=directory
+
+- name: Create user {{ main_user_name }}
+  user: name={{ main_user_name }} home=/home/{{ main_user_name }} shell=/bin/bash groups={{ main_user_name }},sudo,fuse password={{ main_user_password }}
+
+- name: Ensure .ssh directory
+  file: dest=/home/{{ main_user_name }}/.ssh state=directory
+
+- name: Copy authorized keys to {{ main_user_name }} user
+  command: cp /root/.ssh/authorized_keys /home/{{ main_user_name }}/.ssh/
+
+- name: Set permissions on authorized_keys
+  file: path=/home/{{ main_user_name }}/.ssh/authorized_keys owner={{ main_user_name }} group={{ main_user_name }} mode=400
+  notify: restart ssh
+
+- name: Set ownership on {{ main_user_name }} home directory
+  file: dest=/home/{{ main_user_name }} owner={{ main_user_name }} group={{ main_user_name }} recurse=yes state=directory

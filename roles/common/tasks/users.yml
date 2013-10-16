@@ -1,6 +1,0 @@
----
-# Create user to log in with
-# TODO: more to add here!
-
-- name: Create main user account
-  user: name=${main_user_name} state=present shell=/bin/bash groups=sudo,fuse

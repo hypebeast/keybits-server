@@ -1,5 +1,5 @@
 ---
-# Bootstrap and secures the server
+# Secures server and install main software
 
 - name: Update APT package cache
   apt: update_cache=yes
@@ -21,7 +21,7 @@
   lineinfile: dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp="$ubuntu_release-dates" state=absent
 
 - name: Disable SSH strict host key checking to allow git to clone unattended
-  copy: src=ssh_config dest=/root/.ssh/config
+  copy: src=ssh_config dest=/deploy/.ssh/config
 
 - name: Install required software packages
   apt: pkg=$item state=installed
@@ -66,7 +66,6 @@
     - zlib1g-dev
 
 - include: security.yml tags=security
-- include: users.yml tags=users
 - include: nginx-default.yml tags=nginx-default
 - include: docker-py.yml tags=docker-py
 - include: swap-fix.yml tags=swap-fix

@@ -1,6 +1,5 @@
 ---
 # Install security-related packages
-# TODO: more to add here!
 
 - name: Install fail2ban
   apt: pkg=$item state=installed
@@ -10,3 +9,13 @@
 - name: Copy fail2ban configuration into place
   template: src=etc_fail2ban_jail.local.j2 dest=/etc/fail2ban/jail.local
   notify: restart fail2ban
+
+- name: configure and enable ufw
+  command: ufw {{ item }}
+  with_items:
+    - default deny
+    - logging on
+    - allow ssh/tcp
+    - allow http/tcp
+    - allow 443/tcp
+    - --force enable

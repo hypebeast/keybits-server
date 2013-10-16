@@ -34,13 +34,32 @@ Now edit these files:
 
 rename `hosts.example` to `hosts` - enter your ip address here
 
-rename `vars/user.yml.example` to `vars/user.yml.` and edit the contents.
+rename `vars/user.yml.example` to `vars/user.yml` and edit the contents.
 
 ### Deploy!
 
 Now run:
 
-    ansible-playbook -i ./hosts site.yml
+    ansible-playbook -i ./hosts first-run.yml
 
-Make a cup of tea and come back to see your new server and visit http://YOURDOMAIN
+**NB: The `first-run` playbook only needs to be run once.**
 
+Make a cup of tea and come back to see your new server (it'll take 10 to 15 minutes to install everything the first time). When Ansible completes it's tasks, visit:
+
+* http://YOURDOMAIN to see a landing page
+* http://blog.YOURDOMAIN to see your blog
+* http://analytics.YOURDOMAIN to see the piwik setup page
+
+## Update your server
+
+When updates are available you simply need to run:
+
+    ansible-playbook -i ./hosts keybits.yml
+
+This will update software and install new applications.
+
+## Updating or installing specific components
+
+The playbooks and tasks are tagged so that you can just run the parts that you want.
+
+TODO: list available tags
