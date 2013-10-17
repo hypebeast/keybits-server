@@ -3,8 +3,8 @@
 
 - name: Get docker-piwik repo from GitHub
   git: repo=https://github.com/Keybits/docker-piwik.git dest=/home/deploy/docker-piwik/
-  register: repoupdated
+  register: pwrepoupdated
 
 - include: piwik-build.yml
-  when: repoupdated.changed == True
+  when: pwrepoupdated.changed == True
 

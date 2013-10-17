@@ -3,7 +3,7 @@
 
 - name: Get docker-ghost repo from GitHub
   git: repo=https://github.com/Keybits/docker-ghost.git dest=/home/deploy/docker-ghost/
-  register: repoupdated
+  register: ghrepoupdated
 
-#- include: ghost-build.yml
-#  when: repoupdated.changed == True
+- include: ghost-build.yml
+  when: ghrepoupdated.changed == True

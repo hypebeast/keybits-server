@@ -10,7 +10,7 @@
   template: src=etc_fail2ban_jail.local.j2 dest=/etc/fail2ban/jail.local
   notify: restart fail2ban
 
-- name: configure and enable ufw
+- name: Configure and enable ufw
   command: ufw {{ item }}
   with_items:
     - default deny
@@ -19,3 +19,7 @@
     - allow http/tcp
     - allow 443/tcp
     - --force enable
+
+- name: Change default forward policy
+  lineinfile: dest=/etc/default/ufw regexp=^DEFAULT_FORWARD_POLICY= line=DEFAULT_FORWARD_POLICY="ACCEPT"
+  notify: restart ufw

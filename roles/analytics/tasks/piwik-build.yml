@@ -6,15 +6,12 @@
 
 - name: Build docker-piwik
   command: docker build -t keybits/piwik . chdir=/home/deploy/docker-piwik/
-  when: repoupdated.changed != False
 
 - name: Stop running piwik docker image
-  docker: image=keybits/piwik state=stop
-  when: repoupdated != "ok"
+  docker: image=keybits/piwik state=stopped
 
 - name: Run docker-piwik
   docker: image=keybits/piwik command=/start ports=10000:80 volumes=/mnt/piwik:/data
-  when: repoupdated != "ok"
 
 - name: Create nginx virtual host
   template: src=nginx_analytics.conf dest=/etc/nginx/sites-available/analytics.conf

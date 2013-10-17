@@ -28,7 +28,7 @@
   group: name={{ main_user_name }} state=present
 
 - name: Create user {{ main_user_name }}
-  user: name={{ main_user_name }} home=/home/{{ main_user_name }} shell=/bin/bash groups={{ main_user_name }},sudo,fuse
+  user: name={{ main_user_name }} home=/home/{{ main_user_name }} shell=/bin/bash group={{ main_user_name }} groups=sudo,fuse
 
 - name: Ensure .ssh directory
   file: dest=/home/{{ main_user_name }}/.ssh state=directory

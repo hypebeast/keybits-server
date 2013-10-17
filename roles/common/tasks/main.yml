@@ -21,7 +21,7 @@
   lineinfile: dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp="$ubuntu_release-dates" state=absent
 
 - name: Disable SSH strict host key checking to allow git to clone unattended
-  copy: src=ssh_config dest=/deploy/.ssh/config
+  copy: src=ssh_config dest=/home/deploy/.ssh/config
 
 - name: Install required software packages
   apt: pkg=$item state=installed
