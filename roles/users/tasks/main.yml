@@ -3,7 +3,7 @@
 # Enables key based login, passwordless sudo for deploy and sets a password for your user.
 
 - name: Create user deploy
-  user: name=deploy comment="Ansible deployment user" home=/home/deploy shell=/bin/bash group=deploy
+  user: name=deploy comment="Ansible deployment user" home=/home/deploy shell=/bin/bash group=deploy groups=docker
 
 - name: Enable passwordless sudo
   copy: src=sudoers dest=/etc/sudoers validate='visudo -cf %s'
@@ -22,7 +22,7 @@
   file: dest=/home/deploy owner=deploy group=deploy recurse=yes state=directory
 
 - name: Create user {{ main_user_name }}
-  user: name={{ main_user_name }} home=/home/{{ main_user_name }} shell=/bin/bash groups={{ main_user_name }},sudo,fuse password={{ main_user_password }}
+  user: name={{ main_user_name }} home=/home/{{ main_user_name }} shell=/bin/bash groups={{ main_user_name }},sudo,fuse
 
 - name: Ensure .ssh directory
   file: dest=/home/{{ main_user_name }}/.ssh state=directory

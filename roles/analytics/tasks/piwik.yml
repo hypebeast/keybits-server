@@ -7,18 +7,17 @@
 - name: Get docker-piwik repo from GitHub
   git: repo=https://github.com/Keybits/docker-piwik.git dest=/home/deploy/docker-piwik/
 
+- name: Copy customised start script
+  template: src=piwik_start dest=/home/deploy/docker-piwik/scripts/start
+
 - name: Build docker-piwik
   command: docker build -t keybits/piwik . chdir=/home/deploy/docker-piwik/
 
+- name: Stop running piwik docker image
+  docker: image=keybits/piwik state=stop
+
 - name: Run docker-piwik
   docker: image=keybits/piwik command=/start ports=10000:80 volumes=/mnt/piwik:/data
-
-# now get piwik db-password for setting up piwik
-# TODO: ideal would be to set up the first piwik site via Ansible
-
-# TODO: get ansible to set this password and display it here
-- name: Display Piwik db password info
-  debug: msg="The password for the piwik atabase is in /mnt/piwik/ on your server. Go to ttp://analytics.{{ domain }} to set up piwik. Docs are at http://docs.keybits.net"
 
 - name: Create nginx virtual host
   template: src=nginx_analytics.conf dest=/etc/nginx/sites-available/analytics.conf

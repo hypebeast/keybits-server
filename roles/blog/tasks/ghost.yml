@@ -13,8 +13,26 @@
 - name: Copy Ghost content if this is the first install
   command: cp -r /home/deploy/docker-ghost/ghost-dist/content/ /mnt/ghost creates=/mnt/ghost/content/data/ghost.db
 
+- name: Ensure keybits-casper theme directory
+  file: dest=/mnt/ghost/content/themes/keybits-casper state=directory
+
+- name: Create the keybits-casper theme with piwik code
+  shell: cp -r /home/deploy/docker-ghost/ghost-dist/content/themes/casper/* /mnt/ghost/content/themes/keybits-casper/ creates=/mnt/ghost/content/themes/keybits-casper/default.hbs
+
+- name: Copy our customised default.hbs
+  copy: src=ghost-default.hbs dest=/mnt/ghost/content/themes/keybits-casper/default.hbs backup=yes
+
+- name: Ensure partials directory
+  file: dest=/mnt/ghost/content/themes/keybits-casper/partials state=directory
+
+- name: Copy our customised partial for piwik
+  template: src=ghost-piwik.js dest=/mnt/ghost/content/themes/keybits-casper/assets/js/ghost-piwik.js
+
 - name: Build docker-ghost
   command: docker build -t keybits/ghost . chdir=/home/deploy/docker-ghost/
+
+- name: Stop running ghost docker image
+  docker: image=keybits/ghost state=stop
 
 - name: Run docker-ghost
   docker: image=keybits/ghost command=/start ports=2368:2368 volumes=/mnt/ghost/content:/srv/ghost/content
