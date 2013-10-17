@@ -24,8 +24,8 @@
 - name: Set permissions on deploy home directory
   file: dest=/home/deploy owner=deploy group=deploy recurse=yes state=directory
 
-- name: Create {{ main_user }} group
-  group: name={{ main_user }} state=present
+- name: Create {{ main_user_name }} group
+  group: name={{ main_user_name }} state=present
 
 - name: Create user {{ main_user_name }}
   user: name={{ main_user_name }} home=/home/{{ main_user_name }} shell=/bin/bash groups={{ main_user_name }},sudo,fuse
