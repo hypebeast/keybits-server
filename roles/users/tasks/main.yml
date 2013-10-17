@@ -2,6 +2,9 @@
 # Creates a deploy user and your main user.
 # Enables key based login, passwordless sudo for deploy and sets a password for your user.
 
+- name: Create deploy group
+  group: name=deploy state=present
+
 - name: Create user deploy
   user: name=deploy comment="Ansible deployment user" home=/home/deploy shell=/bin/bash group=deploy groups=docker
 
