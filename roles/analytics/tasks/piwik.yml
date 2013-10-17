@@ -1,27 +1,10 @@
 ---
 # Set up piwik for analytics running via Docker
 
-- name: Ensure directory for piwik database
-  file: dest=/mnt/piwik state=directory
-
 - name: Get docker-piwik repo from GitHub
   git: repo=https://github.com/Keybits/docker-piwik.git dest=/home/deploy/docker-piwik/
+  register: repoupdated
 
-- name: Copy customised start script
-  template: src=piwik_start dest=/home/deploy/docker-piwik/scripts/start
+- include: piwik-build.yml
+  when: repoupdated.changed == True
 
-- name: Build docker-piwik
-  command: docker build -t keybits/piwik . chdir=/home/deploy/docker-piwik/
-
-- name: Stop running piwik docker image
-  docker: image=keybits/piwik state=stop
-
-- name: Run docker-piwik
-  docker: image=keybits/piwik command=/start ports=10000:80 volumes=/mnt/piwik:/data
-
-- name: Create nginx virtual host
-  template: src=nginx_analytics.conf dest=/etc/nginx/sites-available/analytics.conf
-
-- name: enable the analytics site
-  file: src=/etc/nginx/sites-available/analytics.conf dest=/etc/nginx/sites-enabled/analytics.conf state=link
-  notify: restart nginx

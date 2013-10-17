@@ -1,0 +1,24 @@
+---
+# Only build piwik if github repo has changed
+
+- name: Ensure directory for piwik database
+  file: dest=/mnt/piwik state=directory
+
+- name: Build docker-piwik
+  command: docker build -t keybits/piwik . chdir=/home/deploy/docker-piwik/
+  when: repoupdated.changed != False
+
+- name: Stop running piwik docker image
+  docker: image=keybits/piwik state=stop
+  when: repoupdated != "ok"
+
+- name: Run docker-piwik
+  docker: image=keybits/piwik command=/start ports=10000:80 volumes=/mnt/piwik:/data
+  when: repoupdated != "ok"
+
+- name: Create nginx virtual host
+  template: src=nginx_analytics.conf dest=/etc/nginx/sites-available/analytics.conf
+
+- name: enable the analytics site
+  file: src=/etc/nginx/sites-available/analytics.conf dest=/etc/nginx/sites-enabled/analytics.conf state=link
+  notify: restart nginx
