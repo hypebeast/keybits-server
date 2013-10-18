@@ -6,4 +6,4 @@
   register: ghrepoupdated
 
 - include: ghost-build.yml
-  when: ghrepoupdated.changed == True
+#  when: ghrepoupdated.changed == True

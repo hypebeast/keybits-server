@@ -22,11 +22,11 @@
 - name: Copy our js file for piwik
   template: src=ghost-piwik.js dest=/mnt/ghost/content/themes/keybits-casper/assets/js/ghost-piwik.js
 
-- name: Build docker-ghost
-  command: docker build -t keybits/ghost . chdir=/home/deploy/docker-ghost/
+#- name: Build docker-ghost
+#  command: docker build -t keybits/ghost . chdir=/home/deploy/docker-ghost/
 
 - name: Stop running ghost docker image
-  docker: image=keybits/ghost state=stop
+  docker: image=keybits/ghost state=stopped
 
 - name: Run docker-ghost
   docker: image=keybits/ghost command=/start ports=2368:2368 volumes=/mnt/ghost/content:/srv/ghost/content
