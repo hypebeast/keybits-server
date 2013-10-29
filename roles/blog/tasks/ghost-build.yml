@@ -16,20 +16,24 @@
 - name: Create the keybits-casper theme with piwik code
   shell: cp -r /home/deploy/docker-ghost/ghost-dist/content/themes/casper/* /mnt/ghost/content/themes/keybits-casper/ creates=/mnt/ghost/content/themes/keybits-casper/default.hbs
 
-- name: Copy our customised default.hbs
-  copy: src=ghost-default.hbs dest=/mnt/ghost/content/themes/keybits-casper/default.hbs backup=yes
+# TODO find a way to use handlebars and jinja together to allow custom theme file building
+#- name: Copy our customised default.hbs
+#  copy: src=ghost-default.hbs dest=/mnt/ghost/content/themes/keybits-casper/default.hbs backup=yes
 
-- name: Copy our js file for piwik
-  template: src=ghost-piwik.js dest=/mnt/ghost/content/themes/keybits-casper/assets/js/ghost-piwik.js
-
-#- name: Build docker-ghost
-#  command: docker build -t keybits/ghost . chdir=/home/deploy/docker-ghost/
+#- name: Copy our js file for piwik
+#  template: src=ghost-piwik.js dest=/mnt/ghost/content/themes/keybits-casper/assets/js/ghost-piwik.js
 
 - name: Stop running ghost docker image
   docker: image=keybits/ghost state=stopped
 
+- name: Build docker-ghost
+  command: docker build -t keybits/ghost . chdir=/home/deploy/docker-ghost/
+
 - name: Run docker-ghost
   docker: image=keybits/ghost command=/start ports=2368:2368 volumes=/mnt/ghost/content:/srv/ghost/content
+
+- name: Set permissions on host mount of Ghost files to allow editing by main user
+  file: /mnt/ghost recurse=yes owner={{ main_user_name }} group={{ main_user_name }} state=directory
 
 - name: Create nginx virtual host
   template: src=nginx_blog.conf dest=/etc/nginx/sites-available/blog.conf

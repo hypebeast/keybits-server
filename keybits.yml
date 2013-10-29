@@ -6,8 +6,7 @@
   user: deploy
   sudo: True
   vars_files:
-    - vars/defaults.yml
-    - vars/user.yml
+    - vars/vars.yml
 
   roles:
     - common

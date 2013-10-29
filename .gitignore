@@ -1,5 +1,5 @@
-vars/user.yml
-vars/default.yml
+TODO.md
+vars/vars.yml
 hosts
 docs/_build/
 docs/_static/

@@ -1,9 +1,9 @@
 ---
-# Only build Ghost if github repo changed
+# Only build Ghost if docker-ghost github repo changed
 
 - name: Get docker-ghost repo from GitHub
   git: repo=https://github.com/Keybits/docker-ghost.git dest=/home/deploy/docker-ghost/
   register: ghrepoupdated
 
 - include: ghost-build.yml
-#  when: ghrepoupdated.changed == True
+  when: ghrepoupdated.changed == True

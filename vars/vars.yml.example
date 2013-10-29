@@ -1,7 +1,7 @@
 ---
 ###############################################################################
-# Rename file to user.yml set your variables here. For a complete reference
-# look at the `vars/defaults.yml.example` file.
+# Rename file to vars.yml set your variables here before running the playbook
+# Also remember to set your host's IP address in the hosts file.
 ###############################################################################
 #
 # your domain name (e.g: example.com) - don't enter www. or other subdomains.
@@ -11,8 +11,3 @@ domain: EXAMPLE.COM
 main_user_name: YOUR_USER_NAME # username you'd like to log in with
 admin_email: YOU@EXAMPLE.COM # an email address to receive notifications
 server_ip_address: YOUR.SERVER.IP.ADDRESS
-
-# Choose a password for your analytics database
-# Make a note of this - you will need it later in the installation
-# piwik database password:
-piwik_db_password: CHOOSE_A_PASSWORD

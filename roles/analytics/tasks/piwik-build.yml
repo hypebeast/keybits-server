@@ -4,11 +4,11 @@
 - name: Ensure directory for piwik database
   file: dest=/mnt/piwik state=directory
 
-- name: Build docker-piwik
-  command: docker build -t keybits/piwik . chdir=/home/deploy/docker-piwik/
-
 - name: Stop running piwik docker image
   docker: image=keybits/piwik state=stopped
+
+- name: Build docker-piwik
+  command: docker build -t keybits/piwik . chdir=/home/deploy/docker-piwik/
 
 - name: Run docker-piwik
   docker: image=keybits/piwik command=/start ports=10000:80 volumes=/mnt/piwik:/data
