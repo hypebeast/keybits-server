@@ -7,3 +7,6 @@
 
 - include: ghost-build.yml
   when: ghrepoupdated.changed == True
+
+- name: Ensure docker-ghost started
+  docker: image=keybits/ghost command=/start ports=2368:2368 volumes=/mnt/ghost/content:/srv/ghost/content state=restarted

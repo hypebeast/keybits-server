@@ -8,3 +8,5 @@
 - include: piwik-build.yml
   when: pwrepoupdated.changed == True
 
+- name: Ensure docker-piwik started
+  docker: image=keybits/piwik command=/start ports=10000:80 volumes=/mnt/piwik:/data state=restarted

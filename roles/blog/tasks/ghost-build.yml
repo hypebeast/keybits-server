@@ -29,9 +29,6 @@
 - name: Build docker-ghost
   command: docker build -t keybits/ghost . chdir=/home/deploy/docker-ghost/
 
-- name: Run docker-ghost
-  docker: image=keybits/ghost command=/start ports=2368:2368 volumes=/mnt/ghost/content:/srv/ghost/content
-
 - name: Set permissions on host mount of Ghost files to allow editing by main user
   file: /mnt/ghost recurse=yes owner={{ main_user_name }} group={{ main_user_name }} state=directory
 
