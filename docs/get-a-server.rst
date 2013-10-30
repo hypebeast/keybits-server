@@ -83,7 +83,7 @@ Set up DNS
 * Choose "Add Domain"
 * Add an ``A`` record with hostname ``@`` and your server's IP addresss
 * Add a ``CNAME`` record with a name of ``*`` and a hostname of ``@``
-*
+* Add mail records that look like those shown below
 
 Your DNS should look something like this:
 

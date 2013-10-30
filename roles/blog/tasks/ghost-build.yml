@@ -1,6 +1,13 @@
 ---
 # Set up Ghost for a blog running via Docker
 
+- name: Create nginx virtual host
+  template: src=nginx_blog.conf dest=/etc/nginx/sites-available/blog.conf
+
+- name: enable the ghost site
+  file: src=/etc/nginx/sites-available/blog.conf dest=/etc/nginx/sites-enabled/blog.conf state=link
+  notify: restart nginx
+
 - name: Ensure directory for Ghost user content
   file: dest=/mnt/ghost state=directory
 
@@ -26,15 +33,15 @@
 - name: Stop running ghost docker image
   docker: image=keybits/ghost state=stopped
 
+- name: Stop ufw
+  command: ufw disable
+
 - name: Build docker-ghost
   command: docker build -t keybits/ghost . chdir=/home/deploy/docker-ghost/
 
+- name: Start ufw
+  command: ufw --force enable
+
 - name: Set permissions on host mount of Ghost files to allow editing by main user
-  file: /mnt/ghost recurse=yes owner={{ main_user_name }} group={{ main_user_name }} state=directory
+  file: path=/mnt/ghost recurse=yes owner={{ main_user_name }} group={{ main_user_name }} state=directory
 
-- name: Create nginx virtual host
-  template: src=nginx_blog.conf dest=/etc/nginx/sites-available/blog.conf
-
-- name: enable the ghost site
-  file: src=/etc/nginx/sites-available/blog.conf dest=/etc/nginx/sites-enabled/blog.conf state=link
-  notify: restart nginx

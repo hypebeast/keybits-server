@@ -9,4 +9,4 @@
   when: pwrepoupdated.changed == True
 
 - name: Ensure docker-piwik started
-  docker: image=keybits/piwik command=/start ports=10000:80 volumes=/mnt/piwik:/data state=restarted
+  docker: image=keybits/piwik ports=10000:80 volumes=/mnt/piwik:/data command=/start count=1 state=present

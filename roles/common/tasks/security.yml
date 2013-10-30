@@ -20,6 +20,27 @@
     - allow 443/tcp
     - --force enable
 
-- name: Change default forward policy
+- name: Set default forward policy to accept
   lineinfile: dest=/etc/default/ufw regexp=^DEFAULT_FORWARD_POLICY= line=DEFAULT_FORWARD_POLICY="ACCEPT"
   notify: restart ufw
+
+# TODO - below doesn't seem to work - currently hacking docker build by disabling ufw during that process
+#- name: Allow Docker containers access to the outside world
+#  copy: src=ufw_before.rules dest=/etc/ufw/before.rules
+#  notify: restart ufw
+
+# TODO - below (like fix above) doesn't work
+#- name: Stop docker whil we fix access to outside world after UFW config
+#  command: service docker stop
+#
+#- name: Remove existing Docker bridge I
+#  command: iptables -t nat -F
+#
+#- name: Remove existing Docker bridge II
+#  command: ifconfig docker0 down
+#
+#- name: Remove existing Docker bridge IIII
+#  command: brctl delbr docker0
+#
+#- name: Start docker
+#  command: service docker start

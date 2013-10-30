@@ -40,7 +40,7 @@ Now **edit these files**:
 
 * Rename ``hosts.example`` to ``hosts`` and enter your server's IP address here
 
-* Rename ``vars/user.yml.example`` to ``vars/user.yml`` and edit the contents. You'll need to enter your **domain name**, a **username** you'd like to log in with and an **email** address for your server to send notifications to.
+* Rename ``vars/vars.yml.example`` to ``vars/vars.yml`` and edit the contents. You'll need to enter your **domain name**, your server's IP addresss again, a **username** you'd like to log in with and an **email** address for your server to send notifications to.
 
 Deploy!
 -------
@@ -53,7 +53,7 @@ Now run::
 
 Make a cup of tea and come back to see your new server (it'll take 10 to 15 minutes to install everything the first time). When Ansible completes it's tasks, visit:
 
-* http://YOURDOMAIN to see a landing page
+* http://YOURDOMAIN to see a basic landing page
 * http://blog.YOURDOMAIN to see your blog
 * http://analytics.YOURDOMAIN to see the piwik setup page
 
