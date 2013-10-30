@@ -1,65 +1,47 @@
 keybits-server
 ==============
 
-Ansible playbooks and Dockerfiles to help you set up a personal server
+**Ansible playbooks and Dockerfiles to help you set up a personal server.**
 
-**WARNING** This is a Work in Progress. Things are incomplete and broken.
+### WARNING
 
-Requirements:
+This is a **'Work in Progress'**. Things are likely to change and be broken.
 
-- Ansible
-- Git
-- A server with Docker installed (more info coming soon)
+Please install on a test server and report issues to help us improve these playbooks and associated docker images.
 
-### Install docker-ansible module:
+**Do not trust your critical data to a server installed using this system until further notice.**
 
-    curl https://raw.github.com/cove/docker-ansible/master/docker-ansible.py > docker
+## Project website
 
-On Ubuntu / Debian:
+Please see the main project website <http://keybits.net> for background.
 
-    sudo mv docker /usr/share/ansible
+## Documentation
 
-On a Mac:
+For step-by-step instructions please [read the docs](http://docs.keybits.net)
 
-    sudo mv docker /usr/local/share/ansible
+## Email newsletter
 
-### Prepare to deploy
+Keep update by subscribing to the newsletter on the project website <http://keybits.net>
 
-To install, clone this repo:
+## Current functionality
 
-    git clone https://github.com/Keybits/keybits-server.git
-    cd keybits-server
+If you follow the documentation and run the playbook here you will get:
 
-Now edit these files:
+- Secured server
+- Landing page
+- Ghost blog
+- Piwik analytics
 
-rename `hosts.example` to `hosts` - enter your ip address here
+You will be able to update these apps and add new apps as we develop the playbook simply by pulling an updated version of this repository and then running the playbook again.
 
-rename `vars/user.yml.example` to `vars/user.yml` and edit the contents.
+## Roadmap
 
-### Deploy!
+See [roadmap](http://docs.keybits.net/en/latest/todo.html#roadmap)
 
-Now run:
+## Known problems
 
-    ansible-playbook -i ./hosts first-run.yml
-
-**NB: The `first-run` playbook only needs to be run once.**
-
-Make a cup of tea and come back to see your new server (it'll take 10 to 15 minutes to install everything the first time). When Ansible completes it's tasks, visit:
-
-* http://YOURDOMAIN to see a landing page
-* http://blog.YOURDOMAIN to see your blog
-* http://analytics.YOURDOMAIN to see the piwik setup page
-
-## Update your server
-
-When updates are available you simply need to run:
-
-    ansible-playbook -i ./hosts keybits.yml
-
-This will update software and install new applications.
-
-## Updating or installing specific components
-
-The playbooks and tasks are tagged so that you can just run the parts that you want.
-
-TODO: list available tags
+- Docker containers don't always start on first run of the playbooks - we are looking into this
+- Docker containers are built on the server - this is slow and inefficient - they'll be published to the registry when better optimised.
+- Some permissions issues need sorting so that you can easily edit files and update the default landing page
+- The documentation is somewhat incomplete with regard to what to do when the server is up and running - this will be coming very soon!
+- No backups! Currently we do not show how to back up your data

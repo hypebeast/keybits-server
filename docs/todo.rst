@@ -8,6 +8,14 @@ Below you can see the order of applications we plan make available. Please add y
 Roadmap
 -------
 
+**Now**
+
+* Better documentation
+* Option to choose subdomain names for each app from settings in vars.yml
+* Backups!
+* Enable email sending for notifications (e.g. from Ghost)
+
+
 **Phase 1 (November 2013)**
 
 * 'About me' style landing page
