@@ -45,3 +45,7 @@ See [roadmap](http://docs.keybits.net/en/latest/todo.html#roadmap)
 - Some permissions issues need sorting so that you can easily edit files and update the default landing page
 - The documentation is somewhat incomplete with regard to what to do when the server is up and running - this will be coming very soon!
 - No backups! Currently we do not show how to back up your data
+
+## Inspiration and thanks
+
+The structure of the playbooks owes a debt of gratitude to Alex Payne's [sovereign](https://github.com/al3x/sovereign) project. The server here is not yet as complete as his but it takes a quite different approach to application deployment.

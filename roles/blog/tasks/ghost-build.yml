@@ -31,13 +31,13 @@
 #  template: src=ghost-piwik.js dest=/mnt/ghost/content/themes/keybits-casper/assets/js/ghost-piwik.js
 
 - name: Stop running ghost docker image
-  docker: image=keybits/ghost state=stopped
+  docker: image=keybits-ghost state=stopped
 
 - name: Stop ufw
   command: ufw disable
 
 - name: Build docker-ghost
-  command: docker build -t keybits/ghost . chdir=/home/deploy/docker-ghost/
+  command: docker build -t keybits-ghost . chdir=/home/deploy/docker-ghost/
 
 - name: Start ufw
   command: ufw --force enable

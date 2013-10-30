@@ -12,13 +12,13 @@
   file: dest=/mnt/piwik state=directory
 
 - name: Stop running piwik docker image
-  docker: image=keybits/piwik state=stopped
+  docker: image=keybits-piwik state=stopped
 
 - name: Stop ufw
   command: ufw disable
 
 - name: Build docker-piwik
-  command: docker build -t keybits/piwik . chdir=/home/deploy/docker-piwik/
+  command: docker build -t keybits-piwik . chdir=/home/deploy/docker-piwik/
 
 - name: Start ufw
   command: ufw --force enable
