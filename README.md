@@ -21,7 +21,7 @@ For step-by-step instructions please [read the docs](http://docs.keybits.net)
 
 ## Email newsletter
 
-Keep update by subscribing to the newsletter on the project website <http://keybits.net>
+Receive updates when new applications are added or security fixes are available by subscribing to the newsletter on the project website <http://keybits.net>
 
 ## Current functionality
 
