@@ -1,5 +1,5 @@
-keybits-server
-==============
+[Keybits](http://keybits.net)
+========
 
 **Ansible playbooks and Dockerfiles to help you set up a personal server.**
 
