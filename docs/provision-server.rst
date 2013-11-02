@@ -28,6 +28,17 @@ Copy docker-ansible.py to your Ansible modules directory:
 * On Ubuntu / Debian: ``sudo mv docker /usr/share/ansible``
 * On a OS X: ``sudo mv docker /usr/local/share/ansible``
 
+Install pwgen
+-------------
+
+We use pwgen to generate some passwords for databases during installation.  On Ubuntu or Debian you can do:
+
+    sudo apt-get install pwgen
+
+On OSX:
+
+   brew install pwgen
+
 Prepare to deploy
 -----------------
 
