@@ -8,5 +8,9 @@
 - include: piwik-build.yml
   when: pwrepoupdated.changed == True
 
+# TODO - not reliable at the moment
+#- name: Ensure docker-piwik started
+#  docker: image=keybits-piwik ports=10000:80 volumes=/mnt/piwik:/data command=/start count=1 state=present
+
 - name: Ensure docker-piwik started
-  docker: image=keybits-piwik ports=10000:80 volumes=/mnt/piwik:/data command=/start count=1 state=present
+  command: docker run -d -p=10000:80 -v=/mnt/piwik:/data keybits-piwik /start
