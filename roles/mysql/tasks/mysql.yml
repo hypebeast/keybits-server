@@ -1,0 +1,12 @@
+---
+# Set up MySQL via docker
+
+- name: Get tutum-docker-mysql repo from GitHub
+  git: repo=https://github.com/tutumcloud/tutum-docker-mysql.git dest=/home/deploy/tutum-docker-mysql/
+  register: mysqlrepoupdated
+
+- include: mysql-build.yml
+
+- name: Ensure MySQL is started
+  command: docker run -d -p 3306:3306 -e MYSQL_PASS="{{ mysql_admin_password }}" -v /mnt/mysql:/var/lib/mysql tutum/mysql
+  #docker: image=tutum/mysql  ports=3306:3306 volumes=/mnt/mysql:/var/lib/mysql env="MYSQL_PASS={{ mysql_admin_password }},MYSQL_USER={{ mysql_admin_user }}" state=present

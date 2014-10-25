@@ -6,7 +6,7 @@
   file: dest=/home/deploy/docker-py state=directory
 
 - name: Get docker-py repo from GitHub
-  git: repo=https://github.com/dotcloud/docker-py.git dest=/home/deploy/docker-py version=0.2.2
+  git: repo=https://github.com/dotcloud/docker-py.git dest=/home/deploy/docker-py version=0.3.0
   register: dprepoupdated
 
 - name: Install docker-py

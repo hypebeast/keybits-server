@@ -10,7 +10,4 @@
 
   roles:
     - common
-    - analytics
-    - blog
-#    - monitoring
-#    - backup
+    - mysql

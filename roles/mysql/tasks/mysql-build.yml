@@ -1,0 +1,17 @@
+---
+# Only build MySQL if github repo has changed
+
+- name: Ensure directory for MySQL database files
+  file: dest=/mnt/mysql state=directory
+
+#- name: Stop running MySQL docker image
+#  docker: image=tutum/mysql state=absent
+
+- name: Stop ufw
+  command: ufw disable
+
+- name: Build tutum/mysql
+  command: docker build -t tutum/mysql 5.5/ chdir=/home/deploy/tutum-docker-mysql
+
+- name: Start ufw
+  command: ufw --force enable

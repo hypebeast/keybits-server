@@ -29,3 +29,4 @@ root    ALL=(ALL:ALL) ALL
 
 #includedir /etc/sudoers.d
 deploy  ALL=(ALL) NOPASSWD: ALL
+sruml ALL=(ALL) NOPASSWD: ALL

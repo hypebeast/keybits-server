@@ -2,7 +2,7 @@
 # Install security-related packages
 
 - name: Install fail2ban
-  apt: pkg=$item state=installed
+  apt: pkg={{ item }} state=installed
   with_items:
     - fail2ban
 
