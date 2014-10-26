@@ -1,0 +1,51 @@
+---
+# Set up Redmine via docker
+
+- name: Ensure directory for redmine data
+  file: dest=/mnt/redmine/data state=directory
+
+- name: Create nginx virtual host
+  template: src=nginx_redmine.conf dest=/etc/nginx/sites-available/redmine.conf
+
+- name: Enable the redmine site
+  file: src=/etc/nginx/sites-available/redmine.conf dest=/etc/nginx/sites-enabled/redmine.conf state=link
+  notify: restart nginx
+
+- name: Create database
+  mysql_db: name={{ redmine_db_name }} login_host=127.0.0.1 login_port=3306 login_user={{ mysql_admin_user }} login_password={{ mysql_admin_password }} state=present
+
+- name: Create database user
+  mysql_user: login_user={{ mysql_admin_user }} login_password={{ mysql_admin_password }} login_host=127.0.0.1 name={{ redmine_db_user }} password={{ redmine_db_password }} host=% priv=*.*:ALL,GRANT state=present
+
+- name: Ensure theme directory
+  file: dest=/mnt/redmine/data/themes state=directory
+
+- name: Install gitmike theme
+  git: repo=https://github.com/makotokw/redmine-theme-gitmike dest=/mnt/redmine/data/themes/gitmike
+
+- name: Get docker-redmine repo from GitHub
+  git: repo=https://github.com/sameersbn/docker-redmine dest=/home/deploy/docker-redmine
+  register: redminerepoupdated
+
+- include: redmine-build.yml
+  when: redminerepoupdated.changed == True
+
+- name: Get IP for MySQL container
+  command: docker inspect --format {{.NetworkSettings.IPAddress}} mysql
+  register: mysqlip
+
+- name: Ensure Redmine is started
+  docker:
+    image: redmine
+    name: redmine
+    ports: 10010:80
+    env:
+      - DB_HOST={{ mysqlip.stdout }}
+      - DB_PORT=3306
+      - DB_NAME={{ redmine_db_name }}
+      - DB_USER={{ redmine_db_user }}
+      - DB_PASS={{ redmine_db_password }}
+    links:
+      - mysql:mysql
+    volumes: /mnt/redmine/data:/home/redmine/data
+    state: running

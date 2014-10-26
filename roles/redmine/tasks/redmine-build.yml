@@ -1,0 +1,14 @@
+---
+# Only build Redmine image if github repo has changed
+
+- name: Stop running Redmine docker image
+  docker: image=redmine state=absent
+
+- name: Stop ufw
+  command: ufw disable
+
+- name: Build redmine image
+  command: docker build -t redmine . chdir=/home/deploy/docker-redmine
+
+- name: Start ufw
+  command: ufw --force enable

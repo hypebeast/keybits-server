@@ -1,12 +1,12 @@
 ---
 # Set up piwik for analytics running via Docker
 
-- name: Get docker-piwik repo from GitHub
-  git: repo=https://github.com/Keybits/docker-piwik.git dest=/home/deploy/docker-piwik/
-  register: pwrepoupdated
+#- name: Get docker-piwik repo from GitHub
+#  git: repo=https://github.com/Keybits/docker-piwik.git dest=/home/deploy/docker-piwik/
+#  register: pwrepoupdated
 
 - include: piwik-build.yml
   when: pwrepoupdated.changed == True
 
 - name: Ensure docker-piwik started
-  docker: image=keybits-piwik ports=10000:80 volumes=/mnt/piwik:/data command=/start count=1 state=present
+  docker: image=keybits-piwik ports=10000:80 volumes=/mnt/piwik:/data command=/start count=1 state=running

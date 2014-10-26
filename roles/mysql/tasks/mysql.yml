@@ -6,7 +6,14 @@
   register: mysqlrepoupdated
 
 - include: mysql-build.yml
+  when: mysqlrepoupdated.changed == True
 
 - name: Ensure MySQL is started
-  command: docker run -d -p 3306:3306 -e MYSQL_PASS="{{ mysql_admin_password }}" -v /mnt/mysql:/var/lib/mysql tutum/mysql
-  #docker: image=tutum/mysql  ports=3306:3306 volumes=/mnt/mysql:/var/lib/mysql env="MYSQL_PASS={{ mysql_admin_password }},MYSQL_USER={{ mysql_admin_user }}" state=present
+  docker:
+    image: tutum/mysql
+    name: mysql
+    ports: 3306:3306
+    env:
+      - MYSQL_PASS={{ mysql_admin_password }}
+    volumes: /mnt/mysql:/var/lib/mysql
+    state: running

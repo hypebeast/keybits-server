@@ -11,3 +11,12 @@ domain: EXAMPLE.COM
 main_user_name: YOUR_USER_NAME # username you'd like to log in with
 admin_email: YOU@EXAMPLE.COM # an email address to receive notifications
 server_ip_address: YOUR.SERVER.IP.ADDRESS
+
+    # MySQL
+mysql_admin_user: admin
+mysql_admin_password: useyourownpassword
+
+# Redmine
+redmine_db_name: redmine_production
+redmine_db_user: redmine
+redmine_db_password: useyourownpassword

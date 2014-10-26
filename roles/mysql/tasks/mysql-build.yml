@@ -4,8 +4,8 @@
 - name: Ensure directory for MySQL database files
   file: dest=/mnt/mysql state=directory
 
-#- name: Stop running MySQL docker image
-#  docker: image=tutum/mysql state=absent
+- name: Stop running MySQL docker image
+  docker: image=tutum/mysql state=absent
 
 - name: Stop ufw
   command: ufw disable

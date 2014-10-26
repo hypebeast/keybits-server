@@ -10,4 +10,7 @@
 
   roles:
     - common
+    #- blog
+    #- analytics
     - mysql
+    - redmine
