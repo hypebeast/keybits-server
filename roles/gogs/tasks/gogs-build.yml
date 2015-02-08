@@ -1,0 +1,14 @@
+---
+# Only build Gogs image if github repo has changed
+
+- name: Stop running gogs docker image
+  docker: image=hypebeast/gogs state=absent
+
+- name: Stop ufw
+  command: ufw disable
+
+- name: Build gogs image
+  command: docker build -t hypebeast/gogs . chdir=/home/deploy/docker-gogs
+
+- name: Start ufw
+  command: ufw --force enable

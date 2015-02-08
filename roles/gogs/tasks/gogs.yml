@@ -1,0 +1,54 @@
+---
+# Set up Gogs via docker
+
+- name: Ensure directory for gogs data
+  file: dest=/mnt/gogs state=directory
+
+- name: Create nginx virtual host
+  template: src=nginx_gogs.conf dest=/etc/nginx/sites-available/gogs.conf
+
+- name: Enable the gogs site
+  file: src=/etc/nginx/sites-available/gogs.conf dest=/etc/nginx/sites-enabled/gogs.conf state=link
+  notify: restart nginx
+
+- name: Ensure Gogs database
+  mysql_db: name={{ gogs_db_name }} login_host=127.0.0.1 login_port=3306 login_user={{ mysql_admin_user }} login_password={{ mysql_admin_password }} state=present
+
+- name: Ensure database user
+  mysql_user: login_user={{ mysql_admin_user }} login_password={{ mysql_admin_password }} login_host=127.0.0.1 name={{ gogs_db_user }} password={{ gogs_db_password }} host=% priv=*.*:ALL,GRANT state=present
+
+- name: Get docker-gogs repo from GitHub
+  git: repo=https://github.com/hypebeast/docker-gogs.git dest=/home/deploy/docker-gogs/ version=feature-vagrant
+  register: gogsrepoupdated
+
+- include: gogs-build.yml
+  when: gogsrepoupdated.changed == True
+
+- name: Get IP for MySQL container
+  command: docker inspect --format {{.NetworkSettings.IPAddress}} mysql
+  register: mysqlip
+
+- name: Ensure script to create admin user
+  template: src=create_admin_user.sh dest=/tmp mode=0755
+
+- name: Ensure Gogs admin user
+  command: ./create_admin_user.sh chdir=/tmp
+
+- name: Remove script to create admin user
+  file: dest=/tmp/create_admin_user.sh state=absent
+
+- name: Ensure Gogs is started
+  docker:
+    image: hypebeast/gogs
+    name: gogs
+    ports: 3000:3000
+    env:
+      - DB_HOST={{ mysqlip.stdout }}
+      - DB_PORT=3306
+      - DB_NAME={{ gogs_db_name }}
+      - DB_USER={{ gogs_db_user }}
+      - DB_PASS={{ gogs_db_password }}
+    links:
+      - mysql:mysql
+    volumes: /mnt/gogs:/data
+    state: running

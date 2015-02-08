@@ -66,6 +66,7 @@
     - python-setuptools
     - zlib1g-dev
     - python-mysqldb
+    - openssl
 
 - name: Install docker.io
   apt: pkg={{ item }} state=installed

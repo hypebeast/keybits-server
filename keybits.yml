@@ -9,8 +9,9 @@
     - vars/vars.yml
 
   roles:
-    - common
+    #- common
     #- blog
     #- analytics
-    - mysql
-    - redmine
+    #- mysql
+    #- redmine
+    - gogs
