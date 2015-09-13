@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 SALT=`head -c 10 /dev/random | base64 | cut -c-10`
 
 PASSWORD=$(
 python3 - <<EOF
 import hashlib, binascii
-dk = binascii.hexlify(hashlib.pbkdf2_hmac('sha256', b'er5gi8theik1Uha', b'${SALT}', 10000, 50'))
+dk = binascii.hexlify(hashlib.pbkdf2_hmac('sha256', b'{{gogs_admin_password}}', b'${SALT}', 10000, 50))
 print(str(dk, "ascii"))
 EOF
 )
