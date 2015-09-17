@@ -1,0 +1,35 @@
+---
+# Install docker
+
+- name: Get Kernel version
+  command: uname -r
+  register: kernel_version
+
+- name: Get codename
+  shell: lsb_release -si | tr '[:upper:]' '[:lower:]'
+  register: lsb_dist
+
+- name: Get dist version
+  shell: lsb_release --codename | cut -f2
+  register: dist_version
+
+- name: Install required packages for docker
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - apparmor
+    - linux-image-extra-{{ kernel_version.stdout }}
+    - linux-image-extra-virtual
+    - ca-certificates
+    - apt-transport-https
+
+- name: Add apt key for docker apt repository
+  apt_key: keyserver=hkp://p80.pool.sks-keyservers.net:80 id=58118E89F3A912897C070ADBF76221572C52609D
+
+- name: Add docker ppas
+  apt_repository: repo='deb https://apt.dockerproject.org/repo {{ lsb_dist.stdout }}-{{ dist_version.stdout }} main' state=present
+
+- name: Update APT package cache
+  apt: update_cache=yes
+
+# - name: Install docker
+#   apt: pkg=docker-engine state=installed

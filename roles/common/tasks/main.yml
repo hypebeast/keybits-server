@@ -40,6 +40,7 @@
   - bzr
   - python-pycurl
   - screen
+  - curl
 
 - name: Add nginx and node ppas
   apt_repository: repo={{ item }} state=present
@@ -68,17 +69,18 @@
     - python-mysqldb
     - openssl
 
-- name: Install docker.io
-  apt: pkg={{ item }} state=installed
-  with_items:
-    - docker.io
+# - name: Install docker.io
+#   apt: pkg={{ item }} state=installed
+#   with_items:
+#     - docker.io
 
-- name: Configure docker
-  command: "{{ item }}"
-  with_items:
-    - ln -sf /usr/bin/docker.io /usr/local/bin/docker
-    - sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker.io
+# - name: Configure docker
+#   command: "{{ item }}"
+#   with_items:
+#     - ln -sf /usr/bin/docker.io /usr/local/bin/docker
+#     - sed -i '$acomplete -F _docker docker' /etc/bash_completion.d/docker.io
 
+- include: docker.yml tags=docker
 - include: security.yml tags=security
 - include: nginx-default.yml tags=nginx-default
 - include: docker-py.yml tags=docker-py
