@@ -1,6 +1,9 @@
 ---
 # Only build Redmine image if github repo has changed
 
+- name: Ensure directory for redmine data
+  file: dest=/mnt/redmine/data state=directory
+
 - name: Stop running Redmine docker image
   docker: image=redmine state=absent
 

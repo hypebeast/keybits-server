@@ -31,5 +31,5 @@
 - name: Update APT package cache
   apt: update_cache=yes
 
-# - name: Install docker
-#   apt: pkg=docker-engine state=installed
+- name: Install docker
+  apt: pkg=docker-engine state=installed

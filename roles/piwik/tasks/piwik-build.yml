@@ -1,0 +1,17 @@
+---
+# Only build piwik if github repo has changed
+
+- name: Ensure directory for piwik database
+  file: dest=/mnt/piwik state=directory
+
+- name: Stop running piwik docker image
+  docker: image=piwik state=stopped
+
+- name: Stop ufw
+  command: ufw disable
+
+- name: Build docker-piwik
+  command: docker build -t piwik . chdir=/home/deploy/docker-piwik/
+
+- name: Start ufw
+  command: ufw --force enable

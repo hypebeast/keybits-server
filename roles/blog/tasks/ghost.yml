@@ -5,8 +5,8 @@
 #  git: repo=https://github.com/Keybits/docker-ghost.git dest=/home/deploy/docker-ghost/
 #  register: ghrepoupdated
 
-- include: ghost-build.yml
-  when: ghrepoupdated.changed == True
+# - include: ghost-build.yml
+#   when: ghrepoupdated.changed == True
 
 - name: Ensure docker-ghost started
   docker: image=keybits-ghost ports=2368:2368 volumes=/mnt/ghost/content:/srv/ghost/content command=/start state=running

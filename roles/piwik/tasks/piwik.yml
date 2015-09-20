@@ -1,0 +1,59 @@
+---
+# Set up piwik for analytics running via Docker
+
+- name: Create nginx virtual host
+  template: src=nginx_piwik.conf dest=/etc/nginx/sites-available/piwik.conf
+
+- name: enable the piwik site
+  file: src=/etc/nginx/sites-available/piwik.conf dest=/etc/nginx/sites-enabled/piwik.conf state=link
+  notify: restart nginx
+
+- name: Get docker-piwik repo from GitHub
+  git: repo=https://github.com/bprodoehl/docker-piwik.git dest=/home/deploy/docker-piwik/
+  register: pwrepoupdated
+
+- name: Ensure Gogs database
+  mysql_db: name={{ piwki_db_name }} login_host=127.0.0.1 login_port=3306 login_user={{ mysql_admin_user }} login_password={{ mysql_admin_password }} state=present
+  register: piwik_create_database
+
+- name: Ensure database user
+  mysql_user: login_user={{ mysql_admin_user }} login_password={{ mysql_admin_password }} login_host=127.0.0.1 name={{ piwik_db_user }} password={{ piwik_db_password }} host=% priv=*.*:ALL,GRANT state=present
+
+- name: Copy mysql schema script
+  command: cp /home/deploy/docker-piwik/config/piwik-schema.sql /tmp/piwik-schema.sql
+  when: piwik_create_database.changed == True
+
+- name: Ensure piwik database schema
+  mysql_db: name={{ piwki_db_name }} login_host=127.0.0.1 login_port=3306 login_user={{ mysql_admin_user }} login_password={{ mysql_admin_password }} target=/tmp/piwik-schema.sql state=import
+  when: piwik_create_database.changed == True
+
+- name: Ensure script for creating example site
+  template: src=create_example_site.sh dest=/tmp/create_example_site.sh mode=a+x
+  when: piwik_create_database.changed == True
+
+- name: Ensure example site
+  shell: /tmp/create_example_site.sh
+  when: piwik_create_database.changed == True
+
+- include: piwik-build.yml
+  when: pwrepoupdated.changed == True
+
+- name: Get IP for MySQL container
+  command: docker inspect --format ''{''{.NetworkSettings.IPAddress''}''} mysql
+  register: mysqlip
+
+- name: Ensure docker-piwik started
+  docker:
+    image: piwik
+    name: piwik
+    ports: 10100:80
+    env:
+      DB_HOST: "{{ mysqlip.stdout }}"
+      DB_PORT: 3306
+      DB_USER: "{{ piwik_db_user }}"
+      DB_PASSWORD: "{{ piwik_db_password }}"
+      DB_NAME: "{{ piwki_db_name }}"
+      PIWIK_USER: "{{ piwik_admin_user }}"
+      PIWIK_PASSWORD: "{{ piwik_admin_password }}"
+    count: 1
+    state: running

@@ -1,9 +1,6 @@
 ---
 # Set up Redmine via docker
 
-- name: Ensure directory for redmine data
-  file: dest=/mnt/redmine/data state=directory
-
 - name: Create nginx virtual host
   template: src=nginx_redmine.conf dest=/etc/nginx/sites-available/redmine.conf
 
@@ -31,7 +28,7 @@
   when: redminerepoupdated.changed == True
 
 - name: Get IP for MySQL container
-  command: docker inspect --format {{.NetworkSettings.IPAddress}} mysql
+  command: docker inspect --format ''{''{.NetworkSettings.IPAddress''}''} mysql
   register: mysqlip
 
 - name: Ensure Redmine is started
@@ -40,11 +37,11 @@
     name: redmine
     ports: 10010:80
     env:
-      - DB_HOST={{ mysqlip.stdout }}
-      - DB_PORT=3306
-      - DB_NAME={{ redmine_db_name }}
-      - DB_USER={{ redmine_db_user }}
-      - DB_PASS={{ redmine_db_password }}
+      DB_HOST: "{{ mysqlip.stdout }}"
+      DB_PORT: 3306
+      DB_NAME: "{{ redmine_db_name }}"
+      DB_USER: "{{ redmine_db_user }}"
+      DB_PASS: "{{ redmine_db_password }}"
     links:
       - mysql:mysql
     volumes: /mnt/redmine/data:/home/redmine/data
