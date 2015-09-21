@@ -1,0 +1,64 @@
+---
+# Set up Selfoss as a newsreader
+
+- name: Clone Selfoss
+  git: repo=https://github.com/SSilence/selfoss.git
+       dest=/var/www/selfoss
+       accept_hostkey=yes
+       version=master
+
+- name: Set selfoss ownership
+  action: file owner=root group=www-data path=/var/www/selfoss recurse=yes state=directory
+
+# only data/cache, data/favicons, data/logs, data/thumbnails, data/sqlite public/ should be writeable by httpd
+- name: Set selfoss permission
+  action: file path=/var/www/selfoss/{{ item }} mode=0775
+  with_items:
+    - data/cache
+    - data/favicons
+    - data/logs
+    - data/thumbnails
+    - data/sqlite
+    - public
+
+- name: Set permissions for the log directory
+  action: file path=/var/www/selfoss/data/logs owner=www-data group=www-data recurse=yes
+
+- name: Install selfoss dependencies
+  apt: pkg={{ item }} state=present
+  with_items:
+    - php5
+    - php5-common
+    - php5-curl
+    - php5-fpm
+    - php5-gd
+    - php5-intl
+    - php5-imagick
+    - php5-ldap
+    - php5-mcrypt
+    - php5-mysql
+    - php5-sqlite
+  tags:
+    - dependencies
+
+- name: Ensure Selfoss database
+  mysql_db: name={{ selfoss_db_database }} login_host=127.0.0.1 login_port=3306 login_user={{ mysql_admin_user }} login_password={{ mysql_admin_password }} state=present
+  register: piwik_create_database
+
+- name: Ensure database user for Selfoss
+  mysql_user: login_user={{ mysql_admin_user }} login_password={{ mysql_admin_password }} login_host=127.0.0.1 name={{ selfoss_db_username }} password={{ selfoss_db_password }} host=% priv=*.*:ALL,GRANT state=present
+
+- name: Install selfoss config.ini
+  template: src=selfoss_config.ini dest=/var/www/selfoss/config.ini group=www-data owner=root
+
+- name: Create nginx virtual host
+  template: src=nginx_selfoss.conf dest=/etc/nginx/sites-available/selfoss.conf group=www-data owner=root
+
+- name: Enable the Selfoss site
+  file: src=/etc/nginx/sites-available/selfoss.conf dest=/etc/nginx/sites-enabled/selfoss.conf state=link
+  notify: restart nginx
+
+- name: Install selfoss cronjob
+  cron: name="selfoss" user="root" minute="*/5" job="curl --silent --show-error -k 'http://{{ selfoss_domain }}/update' > /dev/null"
+
+# TODO: Setup logrotate

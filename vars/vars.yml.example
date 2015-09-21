@@ -2,8 +2,9 @@
 ###############################################################################
 # Rename file to vars.yml set your variables here before running the playbook
 # Also remember to set your host's IP address in the hosts file.
+# For a complete reference look at the `vars/defaults.yml` file.
 ###############################################################################
-#
+
 # your domain name (e.g: example.com) - don't enter www. or other subdomains.
 domain: EXAMPLE.COM
 
@@ -34,3 +35,12 @@ piwik_db_user: piwik
 piwik_db_password: useyourownpassword
 piwik_admin_user: admin
 piwik_admin_password: useyourownpassword
+
+# News
+selfoss_domain: "news.{{ domain }}"
+selfoss_db_username: selfoss
+#selfoss_db_password: (required)
+selfoss_db_database: selfoss
+#selfoss_username: (required)
+## this is the sha512 hash of the desired password
+#selfoss_password_hash: (required)

@@ -1,0 +1,14 @@
+---
+###############################################################################
+# DO NOT EDIT. Set your variables in `vars/user.yml` instead.
+# This is a reference of all the variables.
+###############################################################################
+
+# news
+selfoss_domain: "news.{{ domain }}"
+selfoss_db_username: selfoss
+#selfoss_db_password: (required)
+selfoss_db_database: selfoss
+#selfoss_username: (required)
+## this is the sha512 hash of the desired password
+#selfoss_password_hash: (required)

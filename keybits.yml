@@ -6,12 +6,14 @@
   user: deploy
   sudo: True
   vars_files:
+    - vars/defaults.yml
     - vars/vars.yml
 
   roles:
-    #- common
-    #- blog
-    #- mysql
-    #- redmine
-    #- gogs
+    - common
+    - blog
+    - mysql
+    - redmine
+    - gogs
     - piwik
+    - news
