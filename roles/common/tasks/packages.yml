@@ -30,16 +30,15 @@
   - screen
   - curl
 
-- name: Add nginx and node ppas
+- name: Add nginx ppas
   apt_repository: repo={{ item }} state=present
   with_items:
-    - ppa:chris-lea/node.js
     - ppa:nginx/stable
 
 - name: Update APT package cache
   apt: update_cache=yes
 
-- name: Install main packages for python and node nginx
+- name: Install main packages for python and nginx
   apt: pkg={{ item }} state=installed
   with_items:
     - libfreetype6
