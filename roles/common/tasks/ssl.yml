@@ -1,0 +1,13 @@
+---
+# SSL support for Nginx
+
+- name: ensure directory for SSL keys
+  file: dest=/etc/nginx/ssl state=directory group=root owner=root
+
+- name: ensure DH params file
+  shell: openssl dhparam -out /etc/nginx/ssl/dh.pem 2048 creates=/etc/nginx/ssl/dh.pem
+
+- name: generate self signed certificate
+  shell: openssl req -x509 -newkey rsa:4086 -subj "/C=XX/ST=XXXX/L=XXXX/O=XXXX/CN={{ domain }}" -keyout "/etc/nginx/ssl/key.pem" -out "/etc/nginx/ssl/cert.pem" -days 3650 -nodes -sha256 creates=/etc/nginx/ssl/key.pem
+
+

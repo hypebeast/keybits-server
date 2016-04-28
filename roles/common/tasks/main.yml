@@ -18,5 +18,6 @@
 - include: docker-compose.yml tags=docker-compose
 - include: security.yml tags=security
 - include: nginx-default.yml tags=nginx-default
+- include: ssl.yml tags=ssl
 - include: docker-py.yml tags=docker-py
 - include: swap-fix.yml tags=swap-fix

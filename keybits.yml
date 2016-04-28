@@ -16,5 +16,5 @@
     - mysql
     - redmine
     - gogs
-    - piwik
+    #- piwik
     - news
