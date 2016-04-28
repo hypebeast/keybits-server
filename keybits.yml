@@ -10,10 +10,10 @@
     - vars/vars.yml
 
   roles:
-    - common
-    - blog
-    - mysql
-    - redmine
+    #- common
+    # - blog
+    # - mysql
+    #- redmine
     - gogs
-    - piwik
+    #- piwik
     - news

@@ -69,8 +69,9 @@
     - python-mysqldb
     - openssl
 
-- include: docker.yml tags=docker
+#- include: docker.yml tags=docker
 - include: security.yml tags=security
 - include: nginx-default.yml tags=nginx-default
+- include: ssl.yml tags=ssl
 - include: docker-py.yml tags=docker-py
 - include: swap-fix.yml tags=swap-fix
