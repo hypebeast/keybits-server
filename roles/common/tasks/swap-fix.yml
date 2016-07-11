@@ -2,7 +2,7 @@
 # Create swap space to prevent memory errors with Docker if no swap
 
 - name: Create swap space
-  command: dd if=/dev/zero of=/extraswap bs=1M count=512
+  command: dd if=/dev/zero of=/extraswap bs=1M count=1024
   when: ansible_swaptotal_mb < 1
 
 - name: Make swap
@@ -14,4 +14,3 @@
 
 - name: Turn swap on
   command: swapon -a
-

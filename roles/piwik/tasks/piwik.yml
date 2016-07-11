@@ -12,7 +12,7 @@
   git: repo=https://github.com/bprodoehl/docker-piwik.git dest=/home/deploy/docker-piwik/
   register: pwrepoupdated
 
-- name: Ensure Gogs database
+- name: Ensure Piwik database
   mysql_db: name={{ piwki_db_name }} login_host=127.0.0.1 login_port=3306 login_user={{ mysql_admin_user }} login_password={{ mysql_admin_password }} state=present
   register: piwik_create_database
 
