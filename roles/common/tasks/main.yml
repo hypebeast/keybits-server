@@ -10,67 +10,14 @@
 - name: Disallow root SSH access
   action: lineinfile dest=/etc/ssh/sshd_config regexp='^PermitRootLogin' line='PermitRootLogin no' state=present
 
-- name: Install unattended-upgrades
-  apt: pkg=unattended-upgrades state=present
-
-- name: Adjust APT update intervals
-  copy: src=apt_periodic dest=/etc/apt/apt.conf.d/10periodic
-
-- name: Make sure unattended-upgrades only installs from $ubuntu_release-security
-  lineinfile: dest=/etc/apt/apt.conf.d/50unattended-upgrades regexp="$ubuntu_release-dates" state=absent
-
 - name: Disable SSH strict host key checking to allow git to clone unattended
   copy: src=ssh_config dest=/home/deploy/.ssh/config
 
-- name: Install required software packages
-  apt: pkg={{ item }} state=installed
-  with_items:
-  - git-core
-  - build-essential
-  - python-software-properties
-  - g++
-  - make
-  - htop
-  - iftop
-  - iotop
-  - htop
-  - vim-nox
-  - subversion
-  - mercurial
-  - bzr
-  - python-pycurl
-  - screen
-  - curl
-
-- name: Add nginx and node ppas
-  apt_repository: repo={{ item }} state=present
-  with_items:
-    - ppa:chris-lea/node.js
-    - ppa:nginx/stable
-
-- name: Update APT package cache
-  apt: update_cache=yes
-
-- name: Install main packages for python and node nginx
-  apt: pkg={{ item }} state=installed
-  with_items:
-    - libfreetype6
-    - libfreetype6-dev
-    - libjpeg62
-    - libjpeg62-dev
-    - libpq-dev
-    - libxml2-dev
-    - nginx
-    - nodejs
-    - python-dev
-    - python-imaging
-    - python-setuptools
-    - zlib1g-dev
-    - python-mysqldb
-    - openssl
-
+- include: packages.yml tags=packages
 - include: docker.yml tags=docker
+- include: docker-compose.yml tags=docker-compose
 - include: security.yml tags=security
 - include: nginx-default.yml tags=nginx-default
+- include: ssl.yml tags=ssl
 - include: docker-py.yml tags=docker-py
 - include: swap-fix.yml tags=swap-fix

@@ -1,18 +1,18 @@
 ---
 # Set up Selfoss as a newsreader
 
-- name: Clone Selfoss
-  git: repo=https://github.com/SSilence/selfoss.git
-       dest=/var/www/selfoss
-       accept_hostkey=yes
-       version=master
+# - name: Clone Selfoss
+#   git: repo=https://github.com/SSilence/selfoss.git
+#        dest=/var/www/selfoss
+#        accept_hostkey=yes
+#        version=master
 
 - name: Set selfoss ownership
   action: file owner=root group=www-data path=/var/www/selfoss recurse=yes state=directory
 
 # only data/cache, data/favicons, data/logs, data/thumbnails, data/sqlite public/ should be writeable by httpd
 - name: Set selfoss permission
-  action: file path=/var/www/selfoss/{{ item }} mode=0775
+  action: file path=/var/www/selfoss/{{ item }} mode=0775 owner=www-data group=www-data
   with_items:
     - data/cache
     - data/favicons
@@ -59,6 +59,6 @@
   notify: restart nginx
 
 - name: Install selfoss cronjob
-  cron: name="selfoss" user="root" minute="*/5" job="curl --silent --show-error -k 'http://{{ selfoss_domain }}/update' > /dev/null"
+  cron: name="selfoss" user="root" minute="*/5" job="curl --silent --show-error -k 'https://{{ selfoss_domain }}/update' > /dev/null"
 
 # TODO: Setup logrotate
