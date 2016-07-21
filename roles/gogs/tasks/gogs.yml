@@ -34,12 +34,13 @@
       DB_NAME: "{{ gogs_db_name }}"
       DB_USER: "{{ gogs_db_user }}"
       DB_PASS: "{{ gogs_db_password }}"
-      GOGS_DOMAIN: gogs."{{ domain }}"
+      GOGS_DOMAIN: "gogs.{{ domain }}"
       MAILER_ENABLED: "true"
       MAILER_HOST: "{{ gogs_mailer_host }}"
       MAILER_FROM: "{{ gogs_mailer_from }}"
       MAILER_USER: "{{ gogs_mailer_user }}"
       MAILER_PASS: "{{ gogs_mailer_pass }}"
+      GOGS_DISABLE_REGISTRATION: "true"
     links:
       - mysql:mysql
     volumes: /mnt/gogs:/home/gogs/data
